@@ -292,6 +292,8 @@ def is_connected(graph: Graph):
     for vertex in graph.vertices:
         if graph.degree(vertex) == 0:
             return False
+        vertex_dict.add({vertex: graph.degree()})
+
 
 if __name__ == '__main__':
     pass
