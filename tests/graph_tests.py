@@ -115,6 +115,14 @@ class GraphTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.test_graph.are_adjacent('a', 'c')
 
+    def test_remove_vertex(self):
+        self.test_graph.add_vertex('a', 'b')
+        self.test_graph.remove_vertex('a')
+
+        self.assertEqual(self.test_graph.vertices, set(['b']))
+        with self.assertRaises(KeyError):
+            self.test_graph.remove_vertex('c')
+
 # class DigraphTestCase(unittest.TestCase):
 #     # runs all graph test cases + those included below
 #     def setUp(self) -> None:

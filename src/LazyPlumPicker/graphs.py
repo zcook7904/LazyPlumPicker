@@ -137,6 +137,21 @@ class Graph:
         print(f'Vertex {vertex} not in graph')
         return None
 
+    def remove_vertex(self, vertex: str):
+        ##TODO unittest
+        try:
+            self.vertices.remove(vertex)
+        except KeyError:
+            raise KeyError('Vertex not in graph')
+
+        for edge in self.edges:
+            if vertex in edge:
+                self.remove_edge(edge)
+    def remove_edge(self, edge, remove_vertices: bool = False):
+        try:
+            self.edges.remove(edge)
+        except KeyError:
+            raise KeyError('Edge not in graph')
     def degree(self, vertex: str):
         return len(neighbors(vertex))
 
@@ -289,10 +304,25 @@ def is_path(edges: list) -> bool:
 
 def is_connected(graph: Graph):
     """Determines if a graph is connected."""
-    for vertex in graph.vertices:
-        if graph.degree(vertex) == 0:
+    min_vertex = ''
+    min_degree = 100_000_000
+    vertices = graph.vertices
+
+    for vertex in vertices:
+        _degree = graph.degree(vertex)
+        # if one vertex has a degree of 0 (no neighbors), graph is not connected by definition
+        if  _degree == 0:
             return False
-        vertex_dict.add({vertex: graph.degree()})
+        elif _degree < min_degree:
+            min_degree = _degree
+            min_vertex = vertex
+
+    vertices.remove(min_vertex)
+    def walk():
+        if min_degree == 1:
+            next_vertex = graph.neighbors(min_vertex)
+            vertices.remove(next_vertex)
+
 
 
 if __name__ == '__main__':
