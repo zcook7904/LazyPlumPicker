@@ -123,6 +123,21 @@ class GraphTestCase(unittest.TestCase):
         with self.assertRaises(KeyError):
             self.test_graph.remove_vertex('c')
 
+    def test_remove_vertex_and_edge_is_deleted(self):
+        self.test_graph.add_edge(graphs.Edge('a', 'b'))
+        self.test_graph.remove_vertex('a')
+        self.assertEqual(self.test_graph.edges, set())
+
+    def test_remove_edge(self):
+        self.test_graph.add_edge(graphs.Edge('a', 'b'))
+        self.test_graph.remove_edge(graphs.Edge('a', 'b'))
+        self.assertEqual(self.test_graph.edges, set())
+
+        self.test_graph.add_edge(graphs.Edge('a', 'b'))
+        self.test_graph.remove_edge(graphs.Edge('b', 'a'))
+        self.assertEqual(self.test_graph.edges, set())
+
+
 # class DigraphTestCase(unittest.TestCase):
 #     # runs all graph test cases + those included below
 #     def setUp(self) -> None:

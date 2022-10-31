@@ -134,24 +134,36 @@ class Graph:
                     neighbor_set.add(neighbor_node)
             return neighbor_set
 
-        print(f'Vertex {vertex} not in graph')
-        return None
+        KeyError(f'Vertex {vertex} not in graph')
 
     def remove_vertex(self, vertex: str):
-        ##TODO unittest
+        """Removes given vertex and associated edges from graph."""
+
         try:
+            neighbors = self.neighbors(vertex)
             self.vertices.remove(vertex)
         except KeyError:
-            raise KeyError('Vertex not in graph')
+            raise KeyError(f'Vertex {vertex} not in graph')
 
-        for edge in self.edges:
-            if vertex in edge:
-                self.remove_edge(edge)
+        for neighbor in neighbors:
+            self.remove_edge(Edge(vertex, neighbor))
+
+
     def remove_edge(self, edge, remove_vertices: bool = False):
-        try:
-            self.edges.remove(edge)
-        except KeyError:
-            raise KeyError('Edge not in graph')
+        if remove_vertices:
+            try:
+                self.remove_vertex(edge.head)
+                self.remove_vertex(edge.tail)
+            except KeyError as e:
+                raise KeyError(e)
+
+        else:
+            try:
+                self.edges.remove(edge)
+            except KeyError:
+                raise KeyError('Edge not in graph')
+
+
     def degree(self, vertex: str):
         return len(neighbors(vertex))
 
